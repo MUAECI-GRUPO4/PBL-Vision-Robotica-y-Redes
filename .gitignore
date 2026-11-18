@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+# Secretos y configuración local
+.env
+*.key
+*.pem
+config/*.ini
+!config/ejemplo.ini
