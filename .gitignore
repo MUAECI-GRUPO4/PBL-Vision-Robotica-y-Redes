@@ -4,5 +4,6 @@ __pycache__/
 .env
 *.key
 *.pem
+certs/
 config/*.ini
 !config/ejemplo.ini

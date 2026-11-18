@@ -1,0 +1,1 @@
+# Dependencias con versión fija (se añaden al usarlas, p. ej. flask==x.y.z).
