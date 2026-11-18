@@ -19,6 +19,8 @@ robot KUKA ─KukaVarProxy :7000─(claro)─ pasarela-R ══TLS, conducto 2�
 
 TCP entrega un flujo de bytes. Cada mensaje va así:
 
+![Formato de los mensajes](diagramas/formato-mensaje.png)
+
 ```
 +---------------------+----------------------------------+
 | longitud: u32 (BE)  | payload: JSON en UTF-8           |
