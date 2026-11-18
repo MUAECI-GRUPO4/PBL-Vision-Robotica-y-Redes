@@ -59,7 +59,7 @@ TCP entrega un flujo de bytes. Cada mensaje va así:
 | `ACK` | cualquiera | -- |
 | `ERROR` | cualquiera | -- |
 
-Ejemplos (los comprueba `tests/test_contratos.py`):
+Ejemplos:
 
 ```json
 {"v":1,"type":"HELLO","id":1,"ts":"2026-12-07T10:15:00.001Z","body":{"role":"vision","node":"pasarela_v"}}
