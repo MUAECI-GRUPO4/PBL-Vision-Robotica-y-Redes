@@ -18,12 +18,5 @@ robot KUKA ─KukaVarProxy─ pasarela-R ══TLS══╝
 | `src/pki` | scripts de la CA propia y de los certificados (sin claves privadas) |
 | `src/sims` | simuladores de visión y de robot |
 | `deploy/` | servicios (systemd o Compose) |
-| `tests/` | pruebas |
-
-Pruebas (solo biblioteca estándar, Python 3.10 o superior), desde la raíz:
-
-```
-python -m unittest discover -s tests
-```
 
 Normas de Git en [`CONTRIBUTING.md`](CONTRIBUTING.md).
