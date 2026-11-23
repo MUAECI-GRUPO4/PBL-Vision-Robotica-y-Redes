@@ -1,0 +1,6 @@
+# Material criptográfico generado: nunca al repositorio.
+# El .gitignore de la raíz ya excluye *.key, *.pem y certs/.
+salida/
+*.csr
+*.srl
+*keylog*
