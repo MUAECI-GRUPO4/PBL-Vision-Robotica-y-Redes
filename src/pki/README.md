@@ -13,6 +13,46 @@ Aquí solo van los **scripts**: las claves privadas y los certificados generados
 | `tls_comun.py` | C3 | Contextos TLS mutuos reutilizables para el servidor y las pasarelas |
 | `generar_pruebas.sh` | C4 | Certificados inválidos para las pruebas de rechazo (CA ajena, caducado, autofirmado, nombre incorrecto) |
 
+## Uso
+
+Requisitos: `bash` y OpenSSL 3. En Windows, ejecutar desde **Git Bash** (trae los dos).
+Los scripts los ejecuta **solo quien gestiona la CA**, una vez; el resto de nodos recibe los ficheros ya hechos.
+
+```bash
+cd src/pki
+
+# 1) CA del grupo (se niega a sobrescribir una existente; forzar con FORZAR=1)
+bash generar_ca.sh
+
+# 2) Un certificado por nodo: <nombre> <server|client> "<SAN>"
+bash generar_nodo.sh servidor   server "DNS:servidor.pbl1.local,IP:127.0.0.1"
+bash generar_nodo.sh pasarela_v client "DNS:pasarela-v.pbl1.local"
+
+# 3) Comprobar
+openssl verify -CAfile salida/ca.crt salida/servidor.crt salida/pasarela_v.crt
+openssl x509 -in salida/servidor.crt -noout -text     # SAN, CA:FALSE y EKU
+```
+
+Variables opcionales: `OUT` (carpeta de salida, por defecto `./salida`), `CA_DIR` (dónde está la CA, por defecto `./salida`) y `DIAS` (validez: 3650 para la CA, 365 para los nodos).
+
+Resultado (todo dentro de `salida/`, que git ignora):
+
+```
+salida/ca.crt                 # público: se copia a todos los nodos
+salida/<nodo>.crt             # público: certificado del nodo
+salida/private/ca.key         # secreto: no sale del equipo que gestiona la CA
+salida/private/<nodo>.key     # secreto: solo al nodo correspondiente
+```
+
+Comprobaciones de rechazo útiles:
+
+```bash
+# un certificado de servidor no vale como cliente -> "unsuitable certificate purpose"
+openssl verify -purpose sslclient -CAfile salida/ca.crt salida/servidor.crt
+# un nombre que no está en el SAN -> "hostname mismatch"
+openssl verify -CAfile salida/ca.crt -verify_hostname otro.pbl1.local salida/servidor.crt
+```
+
 ## Propuesta de nombres y rutas (pendiente de acordar con Di y Se)
 
 Sigue la sección `[tls]` de [`config/ejemplo.ini`](../../config/ejemplo.ini): cada nodo lee sus ficheros de `certs/`, que no se versiona.
